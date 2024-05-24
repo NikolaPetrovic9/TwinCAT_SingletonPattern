@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="FB_Alarm" Id="{a16a4457-e980-4d70-9b79-85bb55c618bc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm
+VAR
+	UsedCore 			: IAlarmCore;
+END_VAR
+VAR_STAT
+  	{attribute 'hide'}
+  	CoreSingletonInstance : IAlarmCore; // Wires up TcLog ("Client") to TcLogCore ("Server") (Singleton-Behaviour)
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Initialize" Id="{2c7319f7-5db0-41d0-a3f2-cc4525239a30}">
+      <Declaration><![CDATA[METHOD Initialize : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (UsedCore = 0) THEN 
+	UsedCore := CoreSingletonInstance; 
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RaiseAlarm" Id="{f90c2a31-76b6-4bf1-a3c6-48cfa816c3ef}">
+      <Declaration><![CDATA[METHOD RaiseAlarm : BOOL
+VAR_INPUT
+	alarmMessage : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Initialize();
+RaiseAlarm :=  UsedCore.AddAlarm(alarmMessage);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setCore" Id="{e39d7376-bcf9-45e8-a074-b4fff7d687e5}">
+      <Declaration><![CDATA[METHOD setCore : BOOL
+VAR_INPUT
+	// Reference to TcLoggerCore instance.
+  	ref2Core : IAlarmCore; 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CoreSingletonInstance := ref2Core;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

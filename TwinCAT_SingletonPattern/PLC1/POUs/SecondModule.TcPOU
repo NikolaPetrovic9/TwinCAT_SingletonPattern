@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="AdditionalProgram" Id="{c5768f37-9feb-4598-8ecc-00571bc61d8b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM AdditionalProgram
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

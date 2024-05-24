@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <Itf Name="IAlarmCore" Id="{e37d7cc5-d204-4132-b139-fdeab99c1a40}">
+    <Declaration><![CDATA[INTERFACE IAlarmCore
+]]></Declaration>
+    <Method Name="AddAlarm" Id="{c53fda9b-15f3-48af-abbf-b6c1fa779903}">
+      <Declaration><![CDATA[METHOD AddAlarm : BOOL
+VAR_INPUT
+	alarmMessage : STRING;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="FB_Init" Id="{c2d86add-ebc7-4af1-baa8-bb2a03e198ff}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

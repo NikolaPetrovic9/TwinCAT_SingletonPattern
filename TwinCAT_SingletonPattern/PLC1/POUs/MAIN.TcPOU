@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="MAIN" Id="{5ea28249-cb4a-49a2-996f-28f51da6431f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbAlarmCore : FB_AlarmCore;
+	fbAlarm		: FB_Alarm;
+	
+	addAlarm	: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF addAlarm THEN
+	fbAlarm.RaiseAlarm('This is Info from main program');
+	addAlarm := FALSE;
+END_IF
+
+SecondUnit();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

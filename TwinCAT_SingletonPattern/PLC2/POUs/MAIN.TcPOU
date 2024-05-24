@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="MAIN" Id="{d0ba762e-8cde-4cd2-a9ff-650b6e34056b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	RealSingleton	: Singleton;
+	Singleton		: POINTER TO Singleton;
+	populate		: BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Singleton := RealSingleton.Instance;
+
+IF populate THEN
+	Singleton^.AddAlarm('Populated from main pou');
+	populate := FALSE;
+END_IF
+
+SecondPou();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

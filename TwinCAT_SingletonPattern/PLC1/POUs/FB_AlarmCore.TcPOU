@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="FB_AlarmCore" Id="{6dab939a-178a-422b-9733-46f9191a6fcd}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmCore IMPLEMENTS IAlarmCore
+VAR
+	messages				: ARRAY[1..MAXNUMBEROFALRAMS] OF STRING;
+	actualNumberOfAlarams	: UINT ;
+	Alarm					: FB_Alarm;
+END_VAR
+VAR CONSTANT
+	MAXNUMBEROFALRAMS 		: UINT := 5;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AddAlarm" Id="{360aaf15-2edc-4449-9dd2-da6a69f41ffc}">
+      <Declaration><![CDATA[METHOD AddAlarm : BOOL
+VAR_INPUT
+	alarmMessage : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF actualNumberOfAlarams <= MAXNUMBEROFALRAMS THEN
+	messages[actualNumberOfAlarams] := alarmMessage;
+	actualNumberOfAlarams := actualNumberOfAlarams + 1;
+	AddAlarm := TRUE;
+ELSE
+	AddAlarm := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{ed9209fa-1232-46e5-b18e-c720aca01b86}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[actualNumberOfAlarams := 1;
+Alarm.setCore(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+  <POU Name="Singleton" Id="{6e218b6e-eb66-49bd-9a68-0451a5c870cc}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK Singleton
+VAR
+	_alarms 				: ARRAY[1..MAXNUMBEROFALRAMS] OF STRING;
+	_actualNumberOfAlarms 	: UINT;
+	_init 					: BOOL := FALSE;
+END_VAR
+VAR_STAT
+	_instance 				: POINTER TO Singleton := 0;
+END_VAR
+VAR CONSTANT
+	MAXNUMBEROFALRAMS 		: UINT := 5;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AddAlarm" Id="{ff9909ac-6683-4bbf-b6c0-8593c715d463}">
+      <Declaration><![CDATA[METHOD AddAlarm : BOOL
+VAR_INPUT
+	message	: STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _actualNumberOfAlarms <= MAXNUMBEROFALRAMS THEN
+	_alarms[_actualNumberOfAlarms] := message;
+	_actualNumberOfAlarms := _actualNumberOfAlarms + 1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Exit" Id="{5ee352c3-32fa-46b9-bd69-0cec48e8ca1f}">
+      <Declaration><![CDATA[//FB_Exit must be implemented explicitly. If there is an implementation, then the
+//method is called before the controller removes the code of the function block instance
+//(implicit call). The return value is not evaluated.
+METHOD FB_Exit: BOOL
+VAR_INPUT
+    bInCopyCode: BOOL;  // TRUE: the exit method is called in order to leave the instance which will be copied afterwards (online change).  
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[__DELETE(_instance);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{8ffaef7d-9804-4b88-8f49-1fb8ee9d4f22}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT _init AND _instance = 0 THEN
+	_instance := __NEW(Singleton);
+	_init := TRUE;
+END_IF
+_actualNumberOfAlarms := 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Instance" Id="{fc71cb4c-5fc2-4d13-89ec-54f24269d438}">
+      <Declaration><![CDATA[PROPERTY Instance : POINTER TO Singleton]]></Declaration>
+      <Get Name="Get" Id="{d47168e9-df1f-47d3-a49a-c232bd02bc60}">
+        <Declaration><![CDATA[VAR
+	
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Instance := _instance;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>
