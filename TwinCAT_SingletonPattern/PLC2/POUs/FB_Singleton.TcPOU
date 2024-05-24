@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
-  <POU Name="Singleton" Id="{6e218b6e-eb66-49bd-9a68-0451a5c870cc}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Singleton" Id="{6e218b6e-eb66-49bd-9a68-0451a5c870cc}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK Singleton
+FUNCTION_BLOCK FB_Singleton
 VAR
 	_alarms 				: ARRAY[1..MAXNUMBEROFALRAMS] OF STRING;
 	_actualNumberOfAlarms 	: UINT;
 	_init 					: BOOL := FALSE;
 END_VAR
 VAR_STAT
-	_instance 				: POINTER TO Singleton := 0;
+	_instance 				: POINTER TO FB_Singleton := 0;
 END_VAR
 VAR CONSTANT
 	MAXNUMBEROFALRAMS 		: UINT := 5;
@@ -57,14 +57,14 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT _init AND _instance = 0 THEN
-	_instance := __NEW(Singleton);
+	_instance := __NEW(FB_Singleton);
 	_init := TRUE;
 END_IF
 _actualNumberOfAlarms := 1;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Instance" Id="{fc71cb4c-5fc2-4d13-89ec-54f24269d438}">
-      <Declaration><![CDATA[PROPERTY Instance : POINTER TO Singleton]]></Declaration>
+      <Declaration><![CDATA[PROPERTY Instance : POINTER TO FB_Singleton]]></Declaration>
       <Get Name="Get" Id="{d47168e9-df1f-47d3-a49a-c232bd02bc60}">
         <Declaration><![CDATA[VAR
 	

@@ -27,7 +27,7 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Singleton.TcPOU">
+    <Compile Include="POUs\FB_Singleton.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

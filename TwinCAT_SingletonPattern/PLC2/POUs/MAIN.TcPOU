@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="MAIN" Id="{d0ba762e-8cde-4cd2-a9ff-650b6e34056b}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	RealSingleton	: Singleton;
-	Singleton		: POINTER TO Singleton;
+	RealSingleton	: FB_Singleton;
+	Singleton		: POINTER TO FB_Singleton;
 	populate		: BOOL;
 END_VAR]]></Declaration>
     <Implementation>

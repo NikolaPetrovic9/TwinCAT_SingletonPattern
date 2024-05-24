@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_AlarmCore" Id="{6dab939a-178a-422b-9733-46f9191a6fcd}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmCore IMPLEMENTS IAlarmCore
 VAR
-	messages				: ARRAY[1..MAXNUMBEROFALRAMS] OF STRING;
-	actualNumberOfAlarams	: UINT ;
-	Alarm					: FB_Alarm;
+	_messages				: ARRAY[1..MAXNUMBEROFALRAMS] OF STRING;
+	_actualNumberOfAlarams	: UINT ;
+	_alarm					: FB_Alarm;
 END_VAR
 VAR CONSTANT
 	MAXNUMBEROFALRAMS 		: UINT := 5;
@@ -15,18 +15,15 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddAlarm" Id="{360aaf15-2edc-4449-9dd2-da6a69f41ffc}">
-      <Declaration><![CDATA[METHOD AddAlarm : BOOL
+      <Declaration><![CDATA[METHOD AddAlarm 
 VAR_INPUT
 	alarmMessage : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF actualNumberOfAlarams <= MAXNUMBEROFALRAMS THEN
-	messages[actualNumberOfAlarams] := alarmMessage;
-	actualNumberOfAlarams := actualNumberOfAlarams + 1;
-	AddAlarm := TRUE;
-ELSE
-	AddAlarm := FALSE;
+        <ST><![CDATA[IF _actualNumberOfAlarams <= MAXNUMBEROFALRAMS THEN
+	_messages[_actualNumberOfAlarams] := alarmMessage;
+	_actualNumberOfAlarams := _actualNumberOfAlarams + 1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -42,8 +39,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[actualNumberOfAlarams := 1;
-Alarm.setCore(THIS^);]]></ST>
+        <ST><![CDATA[_actualNumberOfAlarams := 1;
+_alarm.setCore(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

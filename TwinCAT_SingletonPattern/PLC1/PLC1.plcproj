@@ -33,7 +33,7 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SecondUnit.TcPOU">
+    <Compile Include="POUs\SecondPou.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

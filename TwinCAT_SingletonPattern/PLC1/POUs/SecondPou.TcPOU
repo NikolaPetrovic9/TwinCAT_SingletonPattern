@@ -1,21 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="MAIN" Id="{5ea28249-cb4a-49a2-996f-28f51da6431f}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM MAIN
+  <POU Name="SecondPou" Id="{cc68d63e-ecf6-4341-8ccd-b97ad0cbca79}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SecondPou
 VAR
-	alarmCore 	: FB_AlarmCore;
 	alarm		: FB_Alarm;
-	
 	addAlarm	: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF addAlarm THEN
-	alarm.RaiseAlarm('This is Info from main program');
+	alarm.RaiseAlarm('This is Info from second unit');
 	addAlarm := FALSE;
 END_IF
-
-SecondPou();]]></ST>
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
